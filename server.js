@@ -24,7 +24,7 @@ app.listen(PORT, function(){
 // Logic and Routes
 // ======================================
 app.use(htmlRoutes);
-app.use(apiRoutes);
+//app.use(apiRoutes);
 
 // app.get("/", function(req, res){
 //     res.sendFile(path.join(__dirname, "home.html"))
