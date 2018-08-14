@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="image">Link to Photo Image (Required)</label>
-                <input type="text" class="form-control" id="image">
+                <input type="text" class="form-control" id="image" placeholder="https://www.designskilz.com/random-users/images/imageF16.jpg">
             </div>
             <hr>
             <div class="form-group">
@@ -139,7 +139,7 @@
             </div>
             <button id="submit" type="submit" class="btn btn-warning btn-lg mb-3">Submit</button>
         </form>
-        
+
 
         <!-- Modal -->
         <div class="modal fade" id="bfModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -152,8 +152,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                            <h2 id="bfName"></h2>
-                            <img id="bfImg" src="#">
+                        <h2 id="bfName"></h2>
+                        <img id="bfImg" src="#">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -163,7 +163,54 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
+    <script>
+        $("#submit").on("click", function (event) {
+            event.preventDefault();
+            console.log("Hello I've been clicked")
+
+            // Validate 
+            var valid = true;
+
+            if ($("#name").val() === "" || $("#image").val() === "") {
+                valid = false;
+            } else if ($("#q1,#q2,#q3,#q4,#q5,#q6,#q7,#q8,#q9,#q10").val() === "empty") {
+                valid = false;
+            }
+
+            if (valid === true) {
+                var user = {
+                    name: $("#name").val().trim(),
+                    photo: $("#image").val().trim(),
+                    scores: [$("#q1").val(),
+                        $("#q2").val(),
+                        $("#q3").val(),
+                        $("#q4").val(),
+                        $("#q5").val(),
+                        $("#q6").val(),
+                        $("#q7").val(),
+                        $("#q8").val(),
+                        $("#q9").val(),
+                        $("#q10").val()
+                    ]
+                };
+                $.post("/api/friends", user, function (data) {
+                    console.log(data);
+                    $("#bfName").text(data.name);
+                    $("#bfImg").attr("src", data.photo);
+                    $("#bfModal").modal("toggle");
+                });
+            } else {
+                // If a required field is missing, show alert
+                alert("Survey is incomplete!");
+            }
+
+        })
+    </script>
 </body>
 
 </html>
